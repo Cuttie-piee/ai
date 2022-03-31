@@ -21,3 +21,18 @@ def localWeight(point,xmat,ymat,k):
 wt = kernel(point,xmat,k)
 W = (X.T*(wt*X)).I*(X.T*(wt*ymat.T))
 return W
+def localWeightRegression(xmat,ymat,k):
+m,n = np.shape(xmat)
+ypred = np.zeros(m)
+for i in range(m):
+ypred[i] = xmat[i]*localWeight(xmat[i],xmat,ymat,k)
+return ypred
+ypred = localWeightRegression(X,mColB,2)
+Xvalues=X.copy()
+print(Xvalues)
+Xvalues.sort(axis=0)
+plt.scatter(ColA, ColB, color='blue')
+plt.plot(Xvalues[:,1], ypred[X[:,1].argsort(0)], color='yellow', linewidth=5)
+plt.xlabel('Total bill')
+plt.ylabel('Tip')
+plt.show();
